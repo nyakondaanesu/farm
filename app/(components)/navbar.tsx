@@ -23,7 +23,7 @@ export default function Nav() {
     >
       <NavbarBrand>
         <AcmeLogo />
-        <p className="font-bold text-inherit">ACME</p>
+        <p className="font-bold text-inherit">AgriGo</p>
       </NavbarBrand>
       <div className="flex justify-center space-x-8 w-full">
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
@@ -45,9 +45,9 @@ export default function Nav() {
         </NavbarContent>
       </div>
       <div className="">
-        <Button color="success" variant="bordered">
+        <button className="bg-green-700 text-white px-4 py-2 rounded-full">
           Login
-        </Button>
+        </button>
       </div>
     </Navbar>
   );
