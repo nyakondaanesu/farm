@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Nav from "./(components)/navbar";
+import About from "./(components)/about";
 
 export default function Home() {
   return (
@@ -15,7 +16,7 @@ export default function Home() {
           priority
         />
         <div className="absolute inset-0 flex items-center justify-center z-10">
-          <div className="text-center">
+          <div className="text-center mt-25">
             <h1 className="text-white text-5xl font-bold">
               Fresh from the Farm, Straight to Your Table!
             </h1>
@@ -31,6 +32,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <About />
     </>
   );
 }
