@@ -21,7 +21,7 @@ export default function Nav() {
       shouldHideOnScroll
       className="flex justify-between items-center px-4 py-2 bg-white text-black"
     >
-      <NavbarBrand className="mx-20">
+      <NavbarBrand className="mx-4">
         <AcmeLogo />
         <p className="font-bold text-inherit">AgriGo</p>
       </NavbarBrand>

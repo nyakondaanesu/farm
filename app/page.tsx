@@ -3,6 +3,7 @@ import Link from "next/link";
 import Nav from "./(components)/navbar";
 import About from "./(components)/about";
 import FormSection from "./(components)/formSection";
+import QuestionsSections from "./(components)/questionsSection";
 
 export default function Home() {
   return (
@@ -35,6 +36,7 @@ export default function Home() {
       </div>
       <About />
       <FormSection />
+      <QuestionsSections />
     </>
   );
 }

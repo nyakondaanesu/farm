@@ -17,7 +17,32 @@ const FormSection = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Log form data for debugging
     console.log("Form Data Submitted:", formData);
+
+    try {
+      const response = await fetch("api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData), // Send form data as JSON
+      });
+
+      if (response.ok) {
+        // Handle success (e.g., show a success message)
+        console.log("Form successfully submitted");
+        // Optionally reset the form after submission
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        // Handle error (e.g., show an error message)
+        console.error("Error submitting the form:", response.statusText);
+      }
+    } catch (error) {
+      // Handle network or other errors
+      console.error("Network error:", error);
+    }
   };
 
   return (

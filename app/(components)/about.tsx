@@ -29,7 +29,7 @@ const About = () => {
           <h1 className="text-black font-bold text-2xl">
             Agriculture For Future Development
           </h1>
-          <p className="text-gray-600 text-lg mt-4">
+          <p className="text-gray-600 text-md mt-4">
             By embracing reducing chemical inputs, and prioritizing
             biodiversity, we're building resilient food systems that can
             withstand climate challenges while nourishing communities.
