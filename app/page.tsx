@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Nav from "./(components)/navbar";
 import About from "./(components)/about";
+import FormSection from "./(components)/formSection";
 
 export default function Home() {
   return (
@@ -33,6 +34,7 @@ export default function Home() {
         </div>
       </div>
       <About />
+      <FormSection />
     </>
   );
 }

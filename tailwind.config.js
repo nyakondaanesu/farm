@@ -12,7 +12,12 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        " hero": "url('/cows.jpg')", // Custom background
+        hero: "url('/cows.jpg')", // Custom background
+      },
+      colors: {
+        primary: "#3B7D3B",
+        secondary: "#F59E0B",
+        accent: "#6f9f29",
       },
     },
   },

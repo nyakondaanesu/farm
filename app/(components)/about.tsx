@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const About = () => {
   return (
-    <div className="flex items-center justify-between px-20 py-10">
+    <div className="flex items-center justify-between px-20 py-10 mt-10">
       {/* Left Section (Images) */}
       <div className="relative">
         {/* Large Circle Image */}
@@ -42,7 +42,7 @@ const About = () => {
         </div>
 
         {/* Info Boxes */}
-        <div className="flex flex-col space-y-4">
+        <div className="flex flex-col space-y-4 ml-10">
           <div className="flex items-center bg-green-300 p-4 rounded-md shadow-md">
             <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center">
               🍅
