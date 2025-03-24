@@ -2,6 +2,7 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/navbar";
 import Link from "next/link";
 import { Button } from "@heroui/button";
 import Image from "next/image";
+import { SignIn } from "./auth/signIn";
 
 export const AcmeLogo = () => {
   return (
@@ -45,9 +46,7 @@ export default function Nav() {
         </NavbarContent>
       </div>
       <div className="">
-        <button className="bg-[#6f9f29] text-white px-4 py-2 rounded-full">
-          Login
-        </button>
+        <SignIn />
       </div>
     </Navbar>
   );

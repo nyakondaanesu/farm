@@ -1,6 +1,14 @@
 "use client";
 import { useState } from "react";
+import { z } from "zod";
 import GoogleMaps from "./googleMaps";
+
+// Define the Zod schema for form validation
+const formSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Invalid email address").min(1, "Email is required"),
+  message: z.string().min(1, "Message is required"),
+});
 
 const FormSection = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +16,8 @@ const FormSection = () => {
     email: "",
     message: "",
   });
+
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const handleChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -18,10 +28,11 @@ const FormSection = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Log form data for debugging
-    console.log("Form Data Submitted:", formData);
-
+    // Validate form data using Zod
     try {
+      formSchema.parse(formData); // Will throw an error if invalid
+      console.log("Form Data Submitted:", formData);
+
       const response = await fetch("api/users", {
         method: "POST",
         headers: {
@@ -35,21 +46,31 @@ const FormSection = () => {
         console.log("Form successfully submitted");
         // Optionally reset the form after submission
         setFormData({ name: "", email: "", message: "" });
+        setErrors({});
       } else {
         // Handle error (e.g., show an error message)
         console.error("Error submitting the form:", response.statusText);
       }
     } catch (error) {
-      // Handle network or other errors
-      console.error("Network error:", error);
+      if (error instanceof z.ZodError) {
+        // If validation fails, set errors to display
+        const validationErrors: { [key: string]: string } = {};
+        error.errors.forEach((err) => {
+          validationErrors[err.path[0]] = err.message;
+        });
+        setErrors(validationErrors);
+      } else {
+        // Handle network or other errors
+        console.error("Network error:", error);
+      }
     }
   };
 
   return (
-    <div className="w-full flex  bg-[#6f9f29] py-8 px-4">
+    <div className="w-full flex bg-[#6f9f29] py-8 px-4">
       <form
         onSubmit={handleSubmit}
-        className="md:ml-8 sm:p-10 shadow-md rounded-md  w-full max-w-lg"
+        className="md:ml-8 sm:p-10 shadow-md rounded-md w-full max-w-lg"
       >
         <h2 className="text-2xl font-semibold mb-4 text-white">Contact Us</h2>
 
@@ -63,6 +84,7 @@ const FormSection = () => {
             required
             className="w-full sm:w-[400px] md:w-[500px] lg:w-[600px] max-w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          {errors.name && <p className="text-red-500">{errors.name}</p>}
         </div>
 
         <div className="mb-4">
@@ -75,6 +97,7 @@ const FormSection = () => {
             required
             className="w-full sm:w-[400px] md:w-[500px] lg:w-[600px] max-w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          {errors.email && <p className="text-red-500">{errors.email}</p>}
         </div>
 
         <div className="mb-4">
@@ -86,6 +109,7 @@ const FormSection = () => {
             required
             className="w-full sm:w-[400px] md:w-[500px] lg:w-[600px] max-w-full h-32 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          {errors.message && <p className="text-red-500">{errors.message}</p>}
         </div>
 
         <button
