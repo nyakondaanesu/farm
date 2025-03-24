@@ -18,6 +18,11 @@ const FormSection = () => {
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    success?: boolean;
+    message?: string;
+  } | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -27,13 +32,15 @@ const FormSection = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
 
     // Validate form data using Zod
     try {
       formSchema.parse(formData); // Will throw an error if invalid
       console.log("Form Data Submitted:", formData);
 
-      const response = await fetch("api/users", {
+      const response = await fetch("/api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,14 +48,24 @@ const FormSection = () => {
         body: JSON.stringify(formData), // Send form data as JSON
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        // Handle success (e.g., show a success message)
+        // Handle success
+        setSubmitStatus({
+          success: true,
+          message: "Form submitted successfully!",
+        });
         console.log("Form successfully submitted");
-        // Optionally reset the form after submission
+        // Reset the form after submission
         setFormData({ name: "", email: "", message: "" });
         setErrors({});
       } else {
-        // Handle error (e.g., show an error message)
+        // Handle error
+        setSubmitStatus({
+          success: false,
+          message: data.message || "Error submitting the form",
+        });
         console.error("Error submitting the form:", response.statusText);
       }
     } catch (error) {
@@ -61,8 +78,11 @@ const FormSection = () => {
         setErrors(validationErrors);
       } else {
         // Handle network or other errors
+        setSubmitStatus({ success: false, message: "Network error occurred" });
         console.error("Network error:", error);
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -112,11 +132,24 @@ const FormSection = () => {
           {errors.message && <p className="text-red-500">{errors.message}</p>}
         </div>
 
+        {submitStatus && (
+          <div
+            className={`mt-4 p-3 rounded ${
+              submitStatus.success
+                ? "bg-green-100 text-green-800"
+                : "bg-red-100 text-red-800"
+            }`}
+          >
+            {submitStatus.message}
+          </div>
+        )}
+
         <button
           type="submit"
-          className="bg-white text-black w-full sm:w-auto px-4 py-2 rounded-md hover:bg-yellow-300 transition"
+          disabled={isSubmitting}
+          className="bg-white text-black w-full sm:w-auto px-4 py-2 rounded-md hover:bg-yellow-300 transition disabled:opacity-50"
         >
-          Submit
+          {isSubmitting ? "Submitting..." : "Submit"}
         </button>
       </form>
       <div className="mx-10">
