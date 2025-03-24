@@ -1,6 +1,6 @@
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/navbar";
 import Link from "next/link";
-import { Button } from "@heroui/button";
+
 import Image from "next/image";
 import { SignIn } from "./auth/signIn";
 
