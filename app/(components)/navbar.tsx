@@ -34,13 +34,13 @@ export default function Nav() {
             </Link>
           </NavbarItem>
           <NavbarItem isActive>
-            <Link aria-current="page" href="#">
-              Projects
+            <Link aria-current="page" href="#About">
+              About Us
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link color="foreground" href="#">
-              Services
+            <Link color="foreground" href="#contact">
+              Contact Us
             </Link>
           </NavbarItem>
         </NavbarContent>

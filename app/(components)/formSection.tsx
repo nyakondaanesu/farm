@@ -45,7 +45,7 @@ const FormSection = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json", // Added to prevent potential issues
+          Accept: "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -55,7 +55,7 @@ const FormSection = () => {
       if (response.ok) {
         setSubmitStatus({
           success: true,
-          message: "message sent successfully!",
+          message: "Message sent successfully!",
         });
         console.log("Form successfully submitted:", data);
         setFormData({ name: "", email: "", message: "" });
@@ -84,69 +84,74 @@ const FormSection = () => {
   };
 
   return (
-    <div className="w-full flex bg-[#6f9f29] py-8 px-4">
-      <form
-        onSubmit={handleSubmit}
-        className="md:ml-8 sm:p-10 shadow-md rounded-md w-full max-w-lg"
-      >
-        <h2 className="text-2xl font-semibold mb-4 text-white">Contact Us</h2>
-
-        <div className="mb-4">
-          <label className="block text-white font-medium">Name</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {errors.name && <p className="text-red-500">{errors.name}</p>}
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-white font-medium">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {errors.email && <p className="text-red-500">{errors.email}</p>}
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-white font-medium">Message</label>
-          <textarea
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            className="w-full h-32 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {errors.message && <p className="text-red-500">{errors.message}</p>}
-        </div>
-
-        {submitStatus && (
-          <div
-            className={`mt-4 p-3 rounded ${
-              submitStatus.success
-                ? "bg-green-100 text-green-800"
-                : "bg-red-100 text-red-800"
-            }`}
-          >
-            {submitStatus.message}
-          </div>
-        )}
-
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="bg-white text-black w-full px-4 py-2 rounded-md hover:bg-yellow-300 transition disabled:opacity-50"
+    <div className="w-full flex flex-col lg:flex-row bg-[#6f9f29] py-8 px-4 items-center lg:items-start gap-6">
+      {/* Form Section (Takes half of the screen on large screens) */}
+      <div className="w-full lg:w-1/2 flex justify-center" id="contact">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full md:mx-10 p-6 shadow-md rounded-md"
         >
-          {isSubmitting ? "Submitting..." : "Submit"}
-        </button>
-      </form>
-      <div className="mx-10">
+          <h2 className="text-2xl font-semibold mb-4 text-white">Contact Us</h2>
+
+          <div className="mb-4">
+            <label className="block text-white font-medium">Name</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {errors.name && <p className="text-red-500">{errors.name}</p>}
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-white font-medium">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {errors.email && <p className="text-red-500">{errors.email}</p>}
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-white font-medium">Message</label>
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              className="w-full h-32 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {errors.message && <p className="text-red-500">{errors.message}</p>}
+          </div>
+
+          {submitStatus && (
+            <div
+              className={`mt-4 p-3 rounded ${
+                submitStatus.success
+                  ? "bg-green-100 text-green-800"
+                  : "bg-red-100 text-red-800"
+              }`}
+            >
+              {submitStatus.message}
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className=" bg-white text-black w-full px-4 py-2 rounded-md hover:bg-blue-700 transition disabled:opacity-50"
+          >
+            {isSubmitting ? "Submitting..." : "Submit"}
+          </button>
+        </form>
+      </div>
+
+      {/* Google Maps Section (Takes half of the screen on large screens) */}
+      <div className="w-full lg:w-1/2 flex justify-center">
         <GoogleMaps />
       </div>
     </div>
