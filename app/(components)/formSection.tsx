@@ -35,49 +35,46 @@ const FormSection = () => {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
-    // Validate form data using Zod
     try {
-      formSchema.parse(formData); // Will throw an error if invalid
-      console.log("Form Data Submitted:", formData);
+      // Validate form data using Zod
+      formSchema.parse(formData);
+
+      console.log("Submitting form data:", formData);
 
       const response = await fetch("/api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json", // Added to prevent potential issues
         },
-        body: JSON.stringify(formData), // Send form data as JSON
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // Handle success
         setSubmitStatus({
           success: true,
-          message: "Form submitted successfully!",
+          message: "message sent successfully!",
         });
-        console.log("Form successfully submitted");
-        // Reset the form after submission
+        console.log("Form successfully submitted:", data);
         setFormData({ name: "", email: "", message: "" });
         setErrors({});
       } else {
-        // Handle error
         setSubmitStatus({
           success: false,
-          message: data.message || "Error submitting the form",
+          message: data.message || "Error sending message",
         });
         console.error("Error submitting the form:", response.statusText);
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
-        // If validation fails, set errors to display
         const validationErrors: { [key: string]: string } = {};
         error.errors.forEach((err) => {
           validationErrors[err.path[0]] = err.message;
         });
         setErrors(validationErrors);
       } else {
-        // Handle network or other errors
         setSubmitStatus({ success: false, message: "Network error occurred" });
         console.error("Network error:", error);
       }
@@ -101,8 +98,7 @@ const FormSection = () => {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            required
-            className="w-full sm:w-[400px] md:w-[500px] lg:w-[600px] max-w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           {errors.name && <p className="text-red-500">{errors.name}</p>}
         </div>
@@ -114,8 +110,7 @@ const FormSection = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            required
-            className="w-full sm:w-[400px] md:w-[500px] lg:w-[600px] max-w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           {errors.email && <p className="text-red-500">{errors.email}</p>}
         </div>
@@ -126,8 +121,7 @@ const FormSection = () => {
             name="message"
             value={formData.message}
             onChange={handleChange}
-            required
-            className="w-full sm:w-[400px] md:w-[500px] lg:w-[600px] max-w-full h-32 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full h-32 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           {errors.message && <p className="text-red-500">{errors.message}</p>}
         </div>
@@ -147,7 +141,7 @@ const FormSection = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-white text-black w-full sm:w-auto px-4 py-2 rounded-md hover:bg-yellow-300 transition disabled:opacity-50"
+          className="bg-white text-black w-full px-4 py-2 rounded-md hover:bg-yellow-300 transition disabled:opacity-50"
         >
           {isSubmitting ? "Submitting..." : "Submit"}
         </button>
